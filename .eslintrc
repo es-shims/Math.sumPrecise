@@ -1,0 +1,59 @@
+{
+	"root": true,
+
+	"extends": "@ljharb",
+
+	"rules": {
+		"func-style": "off",
+		"id-length": "off",
+		"max-statements": "off",
+		"multiline-comment-style": "off",
+		"new-cap": ["error", {
+			"capIsNewExceptions": [
+				"GetIterator",
+				"IteratorClose",
+				"IteratorStepValue",
+				"RequireObjectCoercible",
+				"ThrowCompletion",
+			],
+		}],
+	},
+
+	"overrides": [
+		{
+			"files": "test/**/*.js",
+
+			"globals": {
+				"DataView": false,
+			},
+
+			"rules": {
+				"max-lines-per-function": "off",
+			},
+		},
+		{
+			"files": "test/byteConversionValues.js",
+			"rules": {
+				"no-loss-of-precision": "warn",
+			},
+		},
+		{
+			"files": "test/proposal-polyfill.js",
+
+			"extends": "@ljharb/eslint-config/node/latest",
+
+			"rules": {
+				"complexity": "off",
+				"func-style": "off",
+				"max-lines-per-function": "off",
+				"multiline-comment-style": "off",
+				"no-constant-condition": "off",
+				"no-param-reassign": "off",
+				"no-restricted-syntax": "off",
+				"no-plusplus": "off",
+				"no-shadow": "off",
+				"strict": "off",
+			},
+		},
+	],
+}
