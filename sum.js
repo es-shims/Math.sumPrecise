@@ -1,7 +1,5 @@
 'use strict';
 
-var isNegativeZero = require('es-abstract/helpers/isNegativeZero');
-
 // adapted from https://github.com/tc39/proposal-math-sum/blob/f4286d0a9d8525bda61be486df964bf2527c8789/polyfill/polyfill.mjs
 
 // https://www-2.cs.cmu.edu/afs/cs/project/quake/public/papers/robust-arithmetic.ps
@@ -23,7 +21,6 @@ var TWO_1023 = 8.98846567431158e+307; // 2 ** 1023
 var MAX_ULP = MAX_DOUBLE - PENULTIMATE_DOUBLE; // 1.99584030953471981166e+292, i.e. 2**(1023 - 52)
 
 var $abs = Math.abs;
-var $isFinite = isFinite;
 
 var INF = Infinity;
 
@@ -39,6 +36,7 @@ function twosum(x, y) {
 // preconditions:
 //  - array only contains numbers
 //  - none of them are -0, NaN, or ±Infinity
+//  - all of them are finite
 module.exports = function sum(array) {
 	var partials = [];
 
@@ -46,41 +44,9 @@ module.exports = function sum(array) {
 
 	var index = -1;
 
-	// in C this would be done using a goto
-	function drainNonFiniteValue(current) {
-		while (!isNaN(current) && (index + 1) < array.length) {
-			var value = array[++index];
-			// summing any distinct two of the three non-finite values gives NaN
-			// summing any one of them with itself gives itself
-			if (!$isFinite(value) && !Object.is(value, current)) {
-				return NaN;
-			}
-		}
-		return current;
-	}
-
-	// handle list of -0 special case
-	while (true) {
-		if ((index + 1) >= array.length) {
-			return -0;
-		}
-
-		var value = array[++index];
-		if (!isNegativeZero(value)) {
-			if (!$isFinite(value)) {
-				return drainNonFiniteValue(value);
-			}
-			partials[partials.length] = value;
-			break;
-		}
-	}
-
 	// main loop
 	while ((index + 1) < array.length) {
 		var x = +array[++index];
-		if (!$isFinite(x)) {
-			return drainNonFiniteValue(x);
-		}
 
 		// we're updating partials in place, but it is maybe easier to understand if you think of it as making a new copy
 		var actuallyUsedPartials = 0;
@@ -99,10 +65,6 @@ module.exports = function sum(array) {
 			if ($abs(hi) === INF) {
 				var sign = hi === INF ? 1 : -1;
 				overflow += sign;
-				// can't hit this because we can't have an array this large, and an iterable this large will take too long
-				// if ($abs(overflow) >= MAX_SAFE_INTEGER) {
-				// 	throw new RangeError('overflow');
-				// }
 
 				x = (x - (sign * TWO_1023)) - (sign * TWO_1023);
 				if ($abs(x) < $abs(y)) {
