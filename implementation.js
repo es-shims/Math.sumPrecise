@@ -7,7 +7,7 @@ var RequireObjectCoercible = require('es-abstract/2024/RequireObjectCoercible');
 var ThrowCompletion = require('es-abstract/2024/ThrowCompletion');
 
 var isNaN = require('es-abstract/helpers/isNaN');
-var isNegativeZero = require('es-abstract/helpers/isNegativeZero');
+var isNegativeZero = require('is-negative-zero');
 
 var MAX_SAFE_INTEGER = 9007199254740992; // Number.MAX_SAFE_INTEGER, 2**53
 
