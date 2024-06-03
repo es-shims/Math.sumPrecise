@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.1](https://github.com/es-shims/Math.sumPrecise/compare/v1.0.0...v1.0.1) - 2024-06-03
+
+### Commits
+
+- [Refactor] use `is-negative-zero` directly instead of via an es-abstract helper [`2672d04`](https://github.com/es-shims/Math.sumPrecise/commit/2672d049df6b8a6f0683f2621cf53099c1d18aa8)
+- [Dev Deps] update `@ljharb/eslint-config` [`05db815`](https://github.com/es-shims/Math.sumPrecise/commit/05db815aa76cc88edd5e73fcdaef6736c547f6a9)
+
 ## v1.0.0 - 2024-04-10
 
 ### Commits
